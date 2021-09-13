@@ -21,7 +21,13 @@ mongoose.connection.on("error", (error) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("welcome to Backend");
+  Employe.find({})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.post("/send", (req, res) => {
@@ -54,6 +60,25 @@ app.post("/delete", (req, res) => {
       console.log(err);
     });
 });
+
+app.post("/update", (req, res) => {
+  Employe.findByIdAndUpdate(req.body.id, {
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    picture: req.body.picture,
+    salary: req.body.salary,
+    position: req.body.position,
+  })
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 app.listen(3000, () => {
   console.log("server running");
 });
