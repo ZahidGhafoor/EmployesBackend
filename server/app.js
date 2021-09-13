@@ -20,17 +20,7 @@ mongoose.connection.on("error", (error) => {
   console.log("Error While connecting with mongoDB", error);
 });
 
-app.get("/", (req, res) => {
-  Employe.find({})
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.post("/send", (req, res) => {
+app.post("/newEmploye", (req, res) => {
   const employee = new Employe({
     name: req.body.name,
     email: req.body.email,
@@ -50,18 +40,7 @@ app.post("/send", (req, res) => {
     });
 });
 
-app.post("/delete", (req, res) => {
-  Employe.findByIdAndRemove(req.body.id)
-    .then((data) => {
-      console.log(data);
-      res.send("data has been removed");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.post("/update", (req, res) => {
+app.post("/updateEmploye", (req, res) => {
   Employe.findByIdAndUpdate(req.body.id, {
     name: req.body.name,
     email: req.body.email,
@@ -72,6 +51,27 @@ app.post("/update", (req, res) => {
   })
     .then((data) => {
       console.log(data);
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/deleteEmploye", (req, res) => {
+  Employe.findByIdAndRemove(req.body.id)
+    .then((data) => {
+      console.log(data);
+      res.send("data has been removed");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/getallemploye", (req, res) => {
+  Employe.find({})
+    .then((data) => {
       res.send(data);
     })
     .catch((err) => {
