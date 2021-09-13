@@ -2,9 +2,16 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-Parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("./Emplyee");
 
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 const Employe = mongoose.model("employee");
 
 const mongourl =
