@@ -43,6 +43,17 @@ app.post("/send", (req, res) => {
       console.log(err);
     });
 });
+
+app.post("/delete", (req, res) => {
+  Employe.findByIdAndRemove(req.body.id)
+    .then((data) => {
+      console.log(data);
+      res.send("data has been removed");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.listen(3000, () => {
   console.log("server running");
 });
