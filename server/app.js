@@ -4,6 +4,7 @@ const bodyParser = require("body-Parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("./Emplyee");
+require("./Hass");
 
 app.use(bodyParser.json());
 app.use(
@@ -13,19 +14,24 @@ app.use(
   })
 );
 const Employe = mongoose.model("employee");
+const Hass = mongoose.model("hass");
 
-const mongourl =
-  "mongodb+srv://cnq:W4kG2Dp5HLHuDVwc@cluster1.vef2z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const mongourl = "mongodb://localhost/zahidbackend";
+//   "mongodb+srv://cnq:W4kG2Dp5HLHuDVwc@cluster1.vef2z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-mongoose.connect(mongourl, {
-  useNewUrlParser: true,
-});
-mongoose.connection.on("connected", () => {
-  console.log("Connected to mongooDB");
-});
-mongoose.connection.on("error", (error) => {
-  console.log("Error While connecting with mongoDB", error);
-});
+// mongoose.connect(mongourl, {
+//   useNewUrlParser: true,
+// });
+// mongoose.connection.on("connected", () => {
+//   console.log("Connected to mongooDB");
+// });
+// mongoose.connection.on("error", (error) => {
+//   console.log("Error While connecting with mongoDB", error);
+// });
+mongoose
+  .connect("mongodb://localhost/hassan", { useNewUrlParser: true })
+  .then(console.log("Connected to MongoDB"))
+  .catch((err) => console.log("Error While Connectiong to MongoDB ", err));
 
 // Post request to Add new Employe
 
@@ -73,7 +79,7 @@ app.post("/updateEmploye", (req, res) => {
 // Post request for delete employee from dataBese
 
 app.post("/deleteEmploye", (req, res) => {
-  Employe.findByIdAndRemove(req.body.id)
+  Employe.findOne({ email: req.body.id })
     .then((data) => {
       console.log(data);
       res.send("data has been removed");
@@ -93,6 +99,42 @@ app.get("/getallemploye", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+app.post("/addHass", (req, res) => {
+  const hass = new Hass({
+    name: req.body.name,
+    dplayer: req.body.data,
+  });
+  hass
+    .save()
+    .then((data) => {
+      console.log(data);
+      res.send("Success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/remHass", (req, res) => {
+  let arr = `dplayer.${req.body.arr}`;
+  // let arr = `dplayer;
+  Hass.findOneAndUpdate(
+    { __id: req.id },
+    { $pull: { [arr]: { object: req.body.number } } }
+  )
+    .then((res) => {
+      console.log("DELETED", res);
+      res.send("DELETED");
+    })
+    .catch((err) => {
+      res.send("ERROR");
+    });
+});
+
+app.use("/", (req, res) => {
+  res.send({ msg: "SERVER RUNNINGsdf" });
 });
 
 app.listen(3000, () => {
