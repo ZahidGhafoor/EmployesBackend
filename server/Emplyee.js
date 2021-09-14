@@ -7,6 +7,7 @@ const EmployeSchema = new mongoose.Schema({
   picture: String,
   salary: String,
   position: String,
+  id: String,
 });
 
 mongoose.model("employee", EmployeSchema);

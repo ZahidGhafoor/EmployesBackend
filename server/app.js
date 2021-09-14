@@ -27,6 +27,8 @@ mongoose.connection.on("error", (error) => {
   console.log("Error While connecting with mongoDB", error);
 });
 
+// Post request to Add new Employe
+
 app.post("/newEmploye", (req, res) => {
   const employee = new Employe({
     name: req.body.name,
@@ -47,6 +49,8 @@ app.post("/newEmploye", (req, res) => {
     });
 });
 
+// Post request for update existing Employe in dataBese
+
 app.post("/updateEmploye", (req, res) => {
   Employe.findByIdAndUpdate(req.body.id, {
     name: req.body.name,
@@ -55,6 +59,7 @@ app.post("/updateEmploye", (req, res) => {
     picture: req.body.picture,
     salary: req.body.salary,
     position: req.body.position,
+    id: req.body.id,
   })
     .then((data) => {
       console.log(data);
@@ -64,6 +69,8 @@ app.post("/updateEmploye", (req, res) => {
       console.log(err);
     });
 });
+
+// Post request for delete employee from dataBese
 
 app.post("/deleteEmploye", (req, res) => {
   Employe.findByIdAndRemove(req.body.id)
@@ -75,6 +82,8 @@ app.post("/deleteEmploye", (req, res) => {
       console.log(err);
     });
 });
+
+// Get request to get all the existing Employe from dataBese
 
 app.get("/getallemploye", (req, res) => {
   Employe.find({})
