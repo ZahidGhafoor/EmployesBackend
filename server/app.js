@@ -16,18 +16,20 @@ app.use(
 const Employe = mongoose.model("employee");
 const Hass = mongoose.model("hass");
 
-const mongourl = "mongodb://localhost/zahidbackend";
-//   "mongodb+srv://cnq:W4kG2Dp5HLHuDVwc@cluster1.vef2z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const mongourl =
+  "mongodb+srv://cnq:W4kG2Dp5HLHuDVwc@cluster1.vef2z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-// mongoose.connect(mongourl, {
-//   useNewUrlParser: true,
-// });
-// mongoose.connection.on("connected", () => {
-//   console.log("Connected to mongooDB");
-// });
-// mongoose.connection.on("error", (error) => {
-//   console.log("Error While connecting with mongoDB", error);
-// });
+//  "mongodb://localhost/zahidbackend";
+
+mongoose.connect(mongourl, {
+  useNewUrlParser: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log("Connected to mongooDB");
+});
+mongoose.connection.on("error", (error) => {
+  console.log("Error While connecting with mongoDB", error);
+});
 mongoose
   .connect("mongodb://localhost/hassan", { useNewUrlParser: true })
   .then(console.log("Connected to MongoDB"))
@@ -98,38 +100,6 @@ app.get("/getallemploye", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-    });
-});
-
-app.post("/addHass", (req, res) => {
-  const hass = new Hass({
-    name: req.body.name,
-    dplayer: req.body.data,
-  });
-  hass
-    .save()
-    .then((data) => {
-      console.log(data);
-      res.send("Success");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.post("/remHass", (req, res) => {
-  let arr = `dplayer.${req.body.arr}`;
-  // let arr = `dplayer;
-  Hass.findOneAndUpdate(
-    { __id: req.id },
-    { $pull: { [arr]: { object: req.body.number } } }
-  )
-    .then((res) => {
-      console.log("DELETED", res);
-      res.send("DELETED");
-    })
-    .catch((err) => {
-      res.send("ERROR");
     });
 });
 
