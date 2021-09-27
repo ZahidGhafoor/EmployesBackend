@@ -4,8 +4,6 @@ const bodyParser = require("body-Parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("./Emplyee");
-require("./Hass");
-
 app.use(bodyParser.json());
 app.use(
   cors({
@@ -14,7 +12,6 @@ app.use(
   })
 );
 const Employe = mongoose.model("employee");
-const Hass = mongoose.model("hass");
 
 const mongourl =
   "mongodb+srv://cnq:W4kG2Dp5HLHuDVwc@cluster1.vef2z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -37,25 +34,25 @@ mongoose
 
 // Post request to Add new Employe
 
-app.post("/newEmploye", (req, res) => {
-  const employee = new Employe({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    picture: req.body.picture,
-    salary: req.body.salary,
-    position: req.body.position,
-  });
-  employee
-    .save()
-    .then((data) => {
-      console.log(data);
-      res.send("Success");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+// app.post("/newEmploye", (req, res) => {
+//   const employee = new Employe({
+//     name: req.body.name,
+//     email: req.body.email,
+//     phone: req.body.phone,
+//     picture: req.body.picture,
+//     salary: req.body.salary,
+//     position: req.body.position,
+//   });
+//   employee
+//     .save()
+//     .then((data) => {
+//       console.log(data);
+//       res.send("Success");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 // Post request for update existing Employe in dataBese
 
@@ -107,6 +104,6 @@ app.use("/", (req, res) => {
   res.send({ msg: "SERVER RUNNINGsdf" });
 });
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("server running");
 });

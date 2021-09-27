@@ -5,6 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import "./Employe.scss";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+
 
 
 
@@ -31,7 +34,9 @@ const Style = makeStyles({
 
 
 const Employe = () => {
+
   const classes = Style();
+  const [loading, setLoading] = useState(false)
 
   const [FullName, useFullName] = useState({
     Name: "",
@@ -73,13 +78,15 @@ const Employe = () => {
 
   const AddEmploye = async () => {
 
+    setLoading(true)
+
     const resolved = {
       data: null,
       error: null,
     };
     try {
       resolved.data = await axios({
-        url: "http://localhost:3000/newEmploye",
+        url: "http://localhost:8000/newEmploye",
         method: "POST",
 
         data: {
@@ -92,15 +99,23 @@ const Employe = () => {
           "id": FullName.ID
         },
       });
-      alert("New Employee has been in added successfully")
+      setLoading(false)
+
+      if (resolved.data == null) {
+        alert("something went wrong")
+      }
+      else { alert(`${FullName.Name} has been added successfully in employee list`) }
+
     } catch (err) {
+      setLoading(false)
       if (err.message) {
         resolved.error = err.message;
       } else {
         resolved.error = "Something went wrong in spred default fee";
       }
-      alert("Something went wrong")
+
     }
+
     return resolved;
   }
 
@@ -113,9 +128,12 @@ const Employe = () => {
       error: null,
     };
     try {
+      setLoading(true)
       resolved.data = await axios({
-        url: "http://localhost:3000/updateEmploye",
+        url: "http://localhost:8000/updateEmploye",
         method: "POST",
+
+
 
         data: {
           "name": FullName.Name,
@@ -127,6 +145,7 @@ const Employe = () => {
           "id": FullName.ID
         },
       });
+      setLoading(false)
       alert("Current Employee Updated successfully")
     } catch (err) {
       resolved.error = "Something went wrong in spred default fee"
@@ -138,6 +157,7 @@ const Employe = () => {
   return (
     <>
       <form>
+
         <div className="Checkout_full_div">
           <div className="Checkout_main_div">
             <div className="header_div">
@@ -207,7 +227,9 @@ const Employe = () => {
             </div>
             <div className="button" >
               <Button id='materialbtn4' variant="contained" onClick={AddEmploye} className={classes.btn}>
-                ADD NEW EMPLOYEE
+                {loading == true ?
+                  <CircularProgress />
+                  : "Add New Employ"}
               </Button>
               <Button id='materialbtn4' variant="contained" onClick={UpdateEmploye} className={classes.btn}>
                 UPDATE EXISTING EMPLOYEE
