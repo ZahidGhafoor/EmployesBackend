@@ -34,25 +34,25 @@ mongoose
 
 // Post request to Add new Employe
 
-// app.post("/newEmploye", (req, res) => {
-//   const employee = new Employe({
-//     name: req.body.name,
-//     email: req.body.email,
-//     phone: req.body.phone,
-//     picture: req.body.picture,
-//     salary: req.body.salary,
-//     position: req.body.position,
-//   });
-//   employee
-//     .save()
-//     .then((data) => {
-//       console.log(data);
-//       res.send("Success");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+app.post("/newEmploye", (req, res) => {
+  const employee = new Employe({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    picture: req.body.picture,
+    salary: req.body.salary,
+    position: req.body.position,
+  });
+  employee
+    .save()
+    .then((data) => {
+      console.log(data);
+      res.send("Success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 // Post request for update existing Employe in dataBese
 

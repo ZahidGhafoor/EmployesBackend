@@ -226,7 +226,7 @@ const Employe = () => {
               </div>
             </div>
             <div className="button" >
-              <Button id='materialbtn4' variant="contained" onClick={AddEmploye} className={classes.btn}>
+              <Button disabled={FullName.Name == "" || FullName.Email == "" || FullName.Phone == "" || FullName.Salary == "" || FullName.Position == "" || FullName.ID == "" ? true : false} id='materialbtn4' variant="contained" onClick={AddEmploye} className={classes.btn}>
                 {loading == true ?
                   <CircularProgress />
                   : "Add New Employ"}
