@@ -27,10 +27,6 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (error) => {
   console.log("Error While connecting with mongoDB", error);
 });
-mongoose
-  .connect("mongodb://localhost/hassan", { useNewUrlParser: true })
-  .then(console.log("Connected to MongoDB"))
-  .catch((err) => console.log("Error While Connectiong to MongoDB ", err));
 
 // Post request to Add new Employe
 
@@ -57,17 +53,21 @@ app.post("/newEmploye", (req, res) => {
 // Post request for update existing Employe in dataBese
 
 app.post("/updateEmploye", (req, res) => {
-  Employe.findByIdAndUpdate(req.body.id, {
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    picture: req.body.picture,
-    salary: req.body.salary,
-    position: req.body.position,
-    id: req.body.id,
-  })
+  Employe.findByIdAndUpdate(
+    req.body.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      picture: req.body.picture,
+      salary: req.body.salary,
+      position: req.body.position,
+      id: req.body.id,
+    },
+    { new: true }
+  )
     .then((data) => {
-      console.log(data);
+      console.log("UPDATED ==== ", data);
       res.send(data);
     })
     .catch((err) => {
@@ -78,10 +78,10 @@ app.post("/updateEmploye", (req, res) => {
 // Post request for delete employee from dataBese
 
 app.post("/deleteEmploye", (req, res) => {
-  Employe.findOne({ email: req.body.id })
+  Employe.findOneAndDelete({ _id: req.body.id })
     .then((data) => {
-      console.log(data);
-      res.send("data has been removed");
+      console.log("The employe deleted = ", data);
+      res.send("Employee has been deleted");
     })
     .catch((err) => {
       console.log(err);

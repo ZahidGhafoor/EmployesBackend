@@ -19,6 +19,34 @@ const Style = makeStyles({
   btn: {
     margin: "0.5rem 0",
     width: "100%",
+    background: "green",
+    height: "3rem",
+    color: "#fff",
+    position: "relative",
+
+    float: "right",
+    "&:hover": {
+      color: "green",
+      transition: ".5s ease-in-out",
+    },
+  },
+  btn2: {
+    margin: "0.5rem 0",
+    width: "100%",
+    background: "Black",
+    height: "3rem",
+    color: "#fff",
+    position: "relative",
+
+    float: "right",
+    "&:hover": {
+      color: "red",
+      transition: ".5s ease-in-out",
+    },
+  },
+  btn3: {
+    margin: "0.5rem 0",
+    width: "100%",
     background: "red",
     height: "3rem",
     color: "#fff",
@@ -146,7 +174,31 @@ const Employe = () => {
         },
       });
       setLoading(false)
-      alert("Current Employee Updated successfully")
+      alert("This Employee Deleted successfully")
+    } catch (err) {
+      resolved.error = "Something went wrong in spred default fee"
+      alert("Something went wrong")
+    }
+    return resolved;
+  }
+
+  const DeleteEmploye = async () => {
+
+    const resolved = {
+      data: null,
+      error: null,
+    };
+    try {
+      setLoading(true)
+      resolved.data = await axios({
+        url: "http://localhost:8000/deleteEmploye",
+        method: "POST",
+        data: {
+          "id": FullName.ID
+        },
+      });
+      setLoading(false)
+      alert("Current Employee Deleted successfully")
     } catch (err) {
       resolved.error = "Something went wrong in spred default fee"
       alert("Something went wrong")
@@ -231,8 +283,13 @@ const Employe = () => {
                   <CircularProgress />
                   : "Add New Employ"}
               </Button>
-              <Button id='materialbtn4' variant="contained" onClick={UpdateEmploye} className={classes.btn}>
+              <Button disabled={FullName.Name == "" || FullName.Email == "" || FullName.Phone == "" || FullName.Salary == "" || FullName.Position == "" || FullName.ID == "" ? true : false} id='materialbtn4' variant="contained" onClick={UpdateEmploye} className={classes.btn2}>
                 UPDATE EXISTING EMPLOYEE
+              </Button>
+
+
+              <Button disabled={FullName.ID == "" ? true : false} id='materialbtn4' variant="contained" onClick={DeleteEmploye} className={classes.btn3}>
+                DELETE EXISTING EMPLOYEE
               </Button>
             </div>
 
